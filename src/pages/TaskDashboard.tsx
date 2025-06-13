@@ -7,13 +7,14 @@ type Task = {
   id: number;
   title: string;
   description: string;
+  isCompleted: boolean;
 };
 
 export default function TaskDashboard() {
-  const [tasks, setTasks] = useState<Task[]>([]);// stores all fetched tasks
-  const [loading, setLoading] = useState(true);// true until tasks are loaded
-  const [selectedTask, setSelectedTask] = useState<Task | null>(null);//selectedTask: the task to edit
-  const [isModalOpen, setIsModalOpen] = useState(false);// controls whether the modal is shown.
+  const [tasks, setTasks] = useState<Task[]>([]); // stores all fetched tasks
+  const [loading, setLoading] = useState(true); // true until tasks are loaded
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null); //selectedTask: the task to edit
+  const [isModalOpen, setIsModalOpen] = useState(false); // controls whether the modal is shown.
 
   //Fetches task list from backend API (GET /tasks).
   const fetchTasks = async () => {
@@ -54,6 +55,17 @@ export default function TaskDashboard() {
     }
   };
 
+  const toggleCompleted = async (taskId: number, newStatus: boolean) => {
+    try {
+      await axios.patch(`/tasks/${taskId}`, { isCompleted: newStatus });
+      fetchTasks(); // refresh list
+    } catch (err: any) {
+      alert(
+        err.response?.data?.message || "Failed to update completion status"
+      );
+    }
+  };
+
   const handleDelete = async (taskId: number) => {
     if (!confirm("Are you sure you want to delete this task?")) return;
     try {
@@ -72,21 +84,41 @@ export default function TaskDashboard() {
       <ul className="space-y-4 mb-6">
         {tasks.map((task) => (
           <li key={task.id} className="p-4 border rounded shadow">
-            <h3 className="text-lg font-semibold">{task.title}</h3>
-            <p className="text-gray-600">{task.description}</p>
-            <div className="mt-2 flex gap-4">
-              <button
-                className="text-blue-600 hover:underline"
-                onClick={() => handleEditClick(task)}
-              >
-                Edit
-              </button>
-              <button
-                className="text-red-600 hover:underline"
-                onClick={() => handleDelete(task.id)}
-              >
-                Delete
-              </button>
+            <div className="flex justify-between items-start">
+              <div>
+                <h3
+                  className={`text-lg font-semibold ${
+                    task.isCompleted ? "line-through text-gray-400" : ""
+                  }`}
+                >
+                  {task.title}
+                </h3>
+                <p className="text-gray-600">{task.description}</p>
+              </div>
+
+              <div className="flex flex-col items-end">
+                <label className="text-sm">
+                  <input
+                    type="checkbox"
+                    checked={task.isCompleted}
+                    onChange={() => toggleCompleted(task.id, !task.isCompleted)}
+                    className="mr-2"
+                  />
+                  Done
+                </label>
+                <button
+                  className="text-blue-600 text-sm hover:underline mt-2"
+                  onClick={() => handleEditClick(task)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="text-red-600 hover:underline"
+                  onClick={() => handleDelete(task.id)}
+                >
+                  Delete
+                </button>
+              </div>
             </div>
           </li>
         ))}

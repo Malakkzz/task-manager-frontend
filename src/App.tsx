@@ -4,6 +4,7 @@ import Register from './auth/Register';
 import TaskDashboard from './pages/TaskDashboard';
 import TaskForm from './pages/TaskForm';
 import AuthGuard from './components/AuthGuard';
+import './App.css';
 
 export default function App() {
   return (
