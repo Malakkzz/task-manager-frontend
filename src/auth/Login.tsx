@@ -29,7 +29,7 @@ export default function Login() {
       const token = response.data.access_token; // If login is successful, backend sends a JWT token
 
       localStorage.setItem("token", token); // Stores the JWT so we can use it later for authenticated requests
-      navigate("/"); // Redirect to task dashboard
+      navigate("/dashboard"); // Redirect to task dashboard
     } catch (err: any) {
       alert(err.response?.data?.message || "Login failed");
     }

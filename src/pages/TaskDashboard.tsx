@@ -55,8 +55,9 @@ export default function TaskDashboard() {
     }
   };
 
-  const toggleCompleted = async (taskId: number, newStatus: boolean) => {
+  const toggleCompleted = async (taskId: number, newStatus: boolean) => {//ID of the task being toggled, the new value you want for isCompleted
     try {
+      //This updates the isCompleted field of that specific task in the backend DB
       await axios.patch(`/tasks/${taskId}`, { isCompleted: newStatus });
       fetchTasks(); // refresh list
     } catch (err: any) {
@@ -96,6 +97,7 @@ export default function TaskDashboard() {
               className="bg-white shadow-md rounded-lg p-6 flex justify-between items-start hover:shadow-lg transition"
             >
               <div className="flex-1">
+                {/* UI for the title to know if the task is completed or no */}
                 <h3
                   className={`text-xl font-semibold ${
                     task.isCompleted ? "line-through text-gray-400" : "text-gray-900"
@@ -110,8 +112,8 @@ export default function TaskDashboard() {
                 <label className="flex items-center text-sm">
                   <input
                     type="checkbox"
-                    checked={task.isCompleted}
-                    onChange={() => toggleCompleted(task.id, !task.isCompleted)}
+                    checked={task.isCompleted} //shows the checkbox as checked or not depending on task status.
+                    onChange={() => toggleCompleted(task.id, !task.isCompleted)} // runs a function that flips the status (true ↔ false) when the checkbox is clicked.
                     className="mr-2 h-4 w-4 accent-green-600"
                   />
                   Done

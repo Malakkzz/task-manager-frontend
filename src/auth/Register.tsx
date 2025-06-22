@@ -35,7 +35,7 @@ export default function Register() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-white px-4">
       <div className="max-w-md w-full p-8 bg-white rounded-lg shadow-md">
-        <h2 className="text-3xl font-semibold mb-6 text-center text-blue-700">
+        <h2 className="text-3xl font-semibold mb-6 text-center text-green-700">
           Register
         </h2>
         {/* the form ui, this connects the form to handleSubmit(onSubmit) */}
@@ -47,7 +47,7 @@ export default function Register() {
             {...register("email")}
             aria-invalid={!!errors.email}
             aria-describedby={errors.email ? "email-error" : undefined}
-            className={`border rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 transition ${
+            className={`border rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-green-500 placeholder-gray-400 transition ${
               errors.email ? "border-red-500" : "border-gray-300"
             }`}
             disabled={isSubmitting}
@@ -65,7 +65,7 @@ export default function Register() {
             {...register("password")}
             aria-invalid={!!errors.password}
             aria-describedby={errors.password ? "password-error" : undefined}
-            className={`border rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 transition ${
+            className={`border rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-green-500 placeholder-gray-400 transition ${
               errors.password ? "border-red-500" : "border-gray-300"
             }`}
             disabled={isSubmitting}
@@ -79,7 +79,7 @@ export default function Register() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="bg-blue-600 text-white py-3 rounded-md font-semibold hover:bg-blue-700 transition disabled:opacity-50"
+            className="bg-green-600 text-white py-3 rounded-md font-semibold hover:bg-green-700 transition disabled:opacity-50"
           >
             {isSubmitting ? "Registering..." : "Register"}
           </button>

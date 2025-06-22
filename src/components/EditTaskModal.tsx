@@ -41,13 +41,13 @@ export default function EditTaskModal({
           Edit Task
         </h2>
         <input
-          className="w-full border border-gray-300 rounded-md p-3 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 transition"
+          className="w-full border border-gray-300 rounded-md p-3 mb-4 focus:outline-none focus:ring-2 focus:ring-green-500 placeholder-gray-400 transition"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Title"
         />
         <textarea
-          className="w-full border border-gray-300 rounded-md p-3 mb-6 resize-none h-28 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 transition"
+          className="w-full border border-gray-300 rounded-md p-3 mb-6 resize-none h-28 focus:outline-none focus:ring-2 focus:ring-green-500 placeholder-gray-400 transition"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Description"
@@ -60,7 +60,7 @@ export default function EditTaskModal({
             Cancel
           </button>
           <button
-            className="px-5 py-2 rounded bg-blue-600 text-white hover:bg-blue-700 transition"
+            className="px-5 py-2 rounded bg-green-600 text-white hover:bg-green-700 transition"
             onClick={() => onSave({ title, description })}
           >
             Save
