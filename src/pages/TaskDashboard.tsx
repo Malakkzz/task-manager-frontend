@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "../lib/axios";
 import EditTaskModal from "../components/EditTaskModal";
+import { useNavigate } from "react-router-dom";
 
 type Task = {
   id: number;
@@ -15,6 +16,8 @@ export default function TaskDashboard() {
   const [loading, setLoading] = useState(true); // true until tasks are loaded
   const [selectedTask, setSelectedTask] = useState<Task | null>(null); //selectedTask: the task to edit
   const [isModalOpen, setIsModalOpen] = useState(false); // controls whether the modal is shown.
+
+  const navigate = useNavigate();
 
   //Fetches task list from backend API (GET /tasks).
   const fetchTasks = async () => {
@@ -55,7 +58,8 @@ export default function TaskDashboard() {
     }
   };
 
-  const toggleCompleted = async (taskId: number, newStatus: boolean) => {//ID of the task being toggled, the new value you want for isCompleted
+  const toggleCompleted = async (taskId: number, newStatus: boolean) => {
+    //ID of the task being toggled, the new value you want for isCompleted
     try {
       //This updates the isCompleted field of that specific task in the backend DB
       await axios.patch(`/tasks/${taskId}`, { isCompleted: newStatus });
@@ -77,10 +81,26 @@ export default function TaskDashboard() {
     }
   };
 
-  if (loading) return <p className="text-center mt-12 text-gray-600">Loading tasks...</p>;
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // remove JWT token
+    navigate("/login"); // redirect to login
+  };
 
-   return (
+  if (loading)
+    return <p className="text-center mt-12 text-gray-600">Loading tasks...</p>;
+
+  return (
     <div className="max-w-4xl mx-auto p-6 mt-12">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold text-gray-700">Welcome back 👋</h1>
+        <button
+          onClick={handleLogout}
+          className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md font-semibold text-sm transition"
+        >
+          Logout
+        </button>
+      </div>
+
       <h2 className="text-4xl font-bold mb-10 text-center text-gray-800">
         📝 Your Tasks
       </h2>
@@ -100,7 +120,9 @@ export default function TaskDashboard() {
                 {/* UI for the title to know if the task is completed or no */}
                 <h3
                   className={`text-xl font-semibold ${
-                    task.isCompleted ? "line-through text-gray-400" : "text-gray-900"
+                    task.isCompleted
+                      ? "line-through text-gray-400"
+                      : "text-gray-900"
                   }`}
                 >
                   {task.title}
