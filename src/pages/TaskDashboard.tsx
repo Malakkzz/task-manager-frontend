@@ -76,64 +76,73 @@ export default function TaskDashboard() {
     }
   };
 
-  if (loading) return <p className="text-center">Loading tasks...</p>;
+  if (loading) return <p className="text-center mt-12 text-gray-600">Loading tasks...</p>;
 
-  return (
-    <div className="p-4 max-w-2xl mx-auto">
-      <h2 className="text-2xl font-bold mb-4">Your Tasks</h2>
-      <ul className="space-y-4 mb-6">
-        {tasks.map((task) => (
-          <li key={task.id} className="p-4 border rounded shadow">
-            <div className="flex justify-between items-start">
-              <div>
+   return (
+    <div className="max-w-4xl mx-auto p-6 mt-12">
+      <h2 className="text-4xl font-bold mb-10 text-center text-gray-800">
+        📝 Your Tasks
+      </h2>
+
+      {loading ? (
+        <p className="text-center text-gray-500">Loading tasks...</p>
+      ) : tasks.length === 0 ? (
+        <p className="text-center text-gray-500">No tasks found. Add one!</p>
+      ) : (
+        <ul className="space-y-6">
+          {tasks.map((task) => (
+            <li
+              key={task.id}
+              className="bg-white shadow-md rounded-lg p-6 flex justify-between items-start hover:shadow-lg transition"
+            >
+              <div className="flex-1">
                 <h3
-                  className={`text-lg font-semibold ${
-                    task.isCompleted ? "line-through text-gray-400" : ""
+                  className={`text-xl font-semibold ${
+                    task.isCompleted ? "line-through text-gray-400" : "text-gray-900"
                   }`}
                 >
                   {task.title}
                 </h3>
-                <p className="text-gray-600">{task.description}</p>
+                <p className="mt-2 text-gray-600">{task.description}</p>
               </div>
 
-              <div className="flex flex-col items-end">
-                <label className="text-sm">
+              <div className="flex flex-col items-end space-y-2 ml-6">
+                <label className="flex items-center text-sm">
                   <input
                     type="checkbox"
                     checked={task.isCompleted}
                     onChange={() => toggleCompleted(task.id, !task.isCompleted)}
-                    className="mr-2"
+                    className="mr-2 h-4 w-4 accent-green-600"
                   />
                   Done
                 </label>
                 <button
-                  className="text-blue-600 text-sm hover:underline mt-2"
                   onClick={() => handleEditClick(task)}
+                  className="text-blue-600 text-sm hover:underline"
                 >
                   Edit
                 </button>
                 <button
-                  className="text-red-600 hover:underline"
                   onClick={() => handleDelete(task.id)}
+                  className="text-red-600 text-sm hover:underline"
                 >
                   Delete
                 </button>
               </div>
-            </div>
-          </li>
-        ))}
-      </ul>
+            </li>
+          ))}
+        </ul>
+      )}
 
-      <Link
-        to="/new-task"
-        className="inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-      >
-        + Add Task
-      </Link>
+      <div className="text-center mt-10">
+        <Link
+          to="/new-task"
+          className="inline-block bg-green-600 text-white px-6 py-3 rounded-md text-lg font-semibold hover:bg-green-700 transition"
+        >
+          + Add Task
+        </Link>
+      </div>
 
-      {/* Rendering the Modal
-      Only renders the modal if there's a task selected
-      Passes handlers to manage modal state and save logic */}
       {selectedTask && (
         <EditTaskModal
           task={selectedTask}

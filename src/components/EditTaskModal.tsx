@@ -30,27 +30,37 @@ export default function EditTaskModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white p-6 rounded shadow-md w-full max-w-md">
-        <h2 className="text-xl font-semibold mb-4">Edit Task</h2>
+    <div
+      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="edit-task-title"
+    >
+      <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
+        <h2 id="edit-task-title" className="text-2xl font-semibold mb-5 text-gray-800">
+          Edit Task
+        </h2>
         <input
-          className="w-full p-2 border mb-2"
+          className="w-full border border-gray-300 rounded-md p-3 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 transition"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Title"
         />
         <textarea
-          className="w-full p-2 border mb-4"
+          className="w-full border border-gray-300 rounded-md p-3 mb-6 resize-none h-28 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 transition"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Description"
         />
-        <div className="flex justify-end gap-2">
-          <button className="px-4 py-2 bg-gray-300 rounded" onClick={onClose}>
+        <div className="flex justify-end gap-3">
+          <button
+            className="px-5 py-2 rounded bg-gray-300 hover:bg-gray-400 transition"
+            onClick={onClose}
+          >
             Cancel
           </button>
           <button
-            className="px-4 py-2 bg-blue-600 text-white rounded"
+            className="px-5 py-2 rounded bg-blue-600 text-white hover:bg-blue-700 transition"
             onClick={() => onSave({ title, description })}
           >
             Save
