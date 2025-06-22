@@ -1,21 +1,24 @@
 // src/components/AuthGuard.tsx
-import { Navigate } from "react-router-dom";
-
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 //AuthGuard.tsx prevents unauthenticated users from accessing protected routes.
-// Use localStorage.getItem("token") or context to check authentication.
-// Use <Navigate /> to redirect to /login
+//If there’s no token, the user is redirected to login.
+//If there's a token, the user is allowed to access protected pages.
 
 interface AuthGuardProps {
   children: React.ReactNode;
 }
 
 export default function AuthGuard({ children }: AuthGuardProps) {
-  const token = localStorage.getItem("token"); // Or use context/auth hook
 
-  if (!token) {
-    return <Navigate to="/login" />;
-  }
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    const token = localStorage.getItem("token"); //to check authentication
+    if (!token) {
+      navigate("/login");
+    }
+  }, [navigate]);
   return <>{children}</>;
 }
