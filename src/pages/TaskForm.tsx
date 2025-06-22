@@ -56,7 +56,9 @@ export default function TaskForm() {
               placeholder="Description"
               {...register("description")}
               aria-invalid={!!errors.description}
-              aria-describedby={errors.description ? "description-error" : undefined}
+              aria-describedby={
+                errors.description ? "description-error" : undefined
+              }
               className="w-full border border-gray-300 rounded-md p-3 resize-none h-28 focus:outline-none focus:ring-2 focus:ring-green-500 placeholder-gray-400 transition"
               disabled={isSubmitting}
             />
@@ -66,13 +68,54 @@ export default function TaskForm() {
               </p>
             )}
           </div>
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full bg-green-600 text-white py-3 rounded-md hover:bg-green-700 transition disabled:opacity-50"
-          >
-            {isSubmitting ? "Creating..." : "Create Task"}
-          </button>
+          <div className="flex justify-between items-center">
+            {/* Back button */}
+            <button
+              type="button"
+              onClick={() => navigate("/dashboard")}
+              aria-label="Go back to dashboard"
+              className="inline-flex items-center gap-2 bg-green-100 text-green-800 font-semibold px-4 py-2 rounded-md shadow-sm hover:bg-green-200 transition focus:outline-none focus:ring-2 focus:ring-green-500"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+              Back
+            </button>
+
+            {/* Create Task button styled like Back with plus icon */}
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="inline-flex items-center gap-2 bg-green-100 text-green-800 font-semibold px-4 py-2 rounded-md shadow-sm hover:bg-green-200 transition disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-green-500"
+            >
+              <span>Create Task</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
+            </button>
+          </div>
         </form>
       </div>
     </div>

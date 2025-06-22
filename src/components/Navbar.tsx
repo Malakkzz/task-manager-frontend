@@ -16,7 +16,8 @@ export default function Navbar() {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    navigate("/login");
+    setIsLoggedIn(false);
+    navigate("/");
   };
 
   //This is a helper function
@@ -37,29 +38,55 @@ export default function Navbar() {
             Task Manager
           </Link>
 
-          {/* Navigation */}
+          {/* Links */}
           <div className="flex items-center gap-4">
+            {/* Always show Home */}
             <Link to="/" className={navLinkClass("/")}>
-              Dashboard
-            </Link>
-            <Link to="/new-task" className={navLinkClass("/new-task")}>
-              Add Task
+              Home
             </Link>
 
-            {!isLoggedIn ? (
+            {/* When logged in and on home page → show Dashboard button */}
+            {isLoggedIn && location.pathname === "/" && (
+              <Link to="/dashboard" className={navLinkClass("/dashboard")}>
+                Dashboard
+              </Link>
+            )}
+
+            {/* When logged in and on dashboard page → show Add Task */}
+            {isLoggedIn && location.pathname === "/dashboard" && (
+              <Link to="/new-task" className={navLinkClass("/new-task")}>
+                Add Task
+              </Link>
+            )}
+
+            {/* When NOT logged in and on login page → show Register button */}
+            {!isLoggedIn && location.pathname === "/login" && (
               <Link
-                to="/login"
+                to="/register"
                 className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-semibold transition"
               >
-                Login
+                Register
               </Link>
-            ) : (
+            )}
+
+            {/* When logged in → show Logout */}
+            {isLoggedIn && (
               <button
                 onClick={handleLogout}
                 className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-semibold transition"
               >
                 Logout
               </button>
+            )}
+
+            {/* When NOT logged in and not on login page → show Login */}
+            {!isLoggedIn && location.pathname !== "/login" && (
+              <Link
+                to="/login"
+                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-semibold transition"
+              >
+                Login
+              </Link>
             )}
           </div>
         </div>

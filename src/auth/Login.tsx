@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const schema = z.object({
   email: z.string().email(),
@@ -38,7 +38,10 @@ export default function Login() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-white px-4">
       <div className="max-w-md w-full p-8 bg-white rounded-lg shadow-md">
-        <h2 className="text-3xl font-semibold mb-6 text-center text-green-700">Login</h2>
+        <h2 className="text-3xl font-semibold mb-6 text-center text-green-700">
+          Login
+        </h2>
+
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
           <input
             type="email"
@@ -82,6 +85,17 @@ export default function Login() {
             {isSubmitting ? "Logging in..." : "Login"}
           </button>
         </form>
+
+        {/* New register message + button below the form */}
+        <div className="mt-6 text-center text-gray-700">
+          <p className="mb-2">Don't have an account yet?</p>
+          <Link
+            to="/register"
+            className="inline-block bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md font-semibold transition"
+          >
+            Register Here
+          </Link>
+        </div>
       </div>
     </div>
   );
