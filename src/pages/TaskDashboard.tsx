@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "../lib/axios";
 import EditTaskModal from "../components/EditTaskModal";
-import { useNavigate } from "react-router-dom";
 
 type Task = {
   id: number;
@@ -17,7 +16,6 @@ export default function TaskDashboard() {
   const [selectedTask, setSelectedTask] = useState<Task | null>(null); //selectedTask: the task to edit
   const [isModalOpen, setIsModalOpen] = useState(false); // controls whether the modal is shown.
 
-  const navigate = useNavigate();
 
   //Fetches task list from backend API (GET /tasks).
   const fetchTasks = async () => {
@@ -81,26 +79,11 @@ export default function TaskDashboard() {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("token"); // remove JWT token
-    navigate("/login"); // redirect to login
-  };
-
   if (loading)
     return <p className="text-center mt-12 text-gray-600">Loading tasks...</p>;
 
   return (
     <div className="max-w-4xl mx-auto p-6 mt-12">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-700">Welcome back 👋</h1>
-        <button
-          onClick={handleLogout}
-          className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md font-semibold text-sm transition"
-        >
-          Logout
-        </button>
-      </div>
-
       <h2 className="text-4xl font-bold mb-10 text-center text-gray-800">
         📝 Your Tasks
       </h2>

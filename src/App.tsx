@@ -5,10 +5,13 @@ import TaskDashboard from "./pages/TaskDashboard";
 import TaskForm from "./pages/TaskForm";
 import AuthGuard from "./components/AuthGuard";
 import Layout from "./components/Layout";
+import Navbar from "./components/Navbar";
 
 export default function App() {
   return (
     <Layout>
+      {/* Only show Navbar if authenticated */}
+      {localStorage.getItem("token") && <Navbar />}
       <Routes>
         <Route path="/" element={<Login />} />
         <Route
