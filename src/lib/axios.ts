@@ -10,7 +10,7 @@ const instance = axios.create({ // axios.create({ baseURL }) Creates a custom Ax
 //Before sending any request,
 // it automatically attaches the JWT token to the Authorization header if it exists in localStorage
 instance.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
   if (token) {
     config.headers.Authorization = `Bearer ${token}`; //Authorization: Bearer <token>: This is how the backend recognizes and authorizes the user
   }

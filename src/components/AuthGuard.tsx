@@ -15,7 +15,7 @@ export default function AuthGuard({ children }: AuthGuardProps) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("token"); //to check authentication
+    const token = sessionStorage.getItem("token"); //to check authentication
     if (!token) {
       navigate("/login");
     }

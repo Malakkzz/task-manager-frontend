@@ -28,7 +28,8 @@ export default function Login() {
       ); // Sends the email + password to /auth/login endpoint
       const token = response.data.access_token; // If login is successful, backend sends a JWT token
 
-      localStorage.setItem("token", token); // Stores the JWT so we can use it later for authenticated requests
+      sessionStorage.setItem("token", token);
+ // Stores the JWT so we can use it later for authenticated requests
       navigate("/dashboard"); // Redirect to task dashboard
     } catch (err: any) {
       alert(err.response?.data?.message || "Login failed");

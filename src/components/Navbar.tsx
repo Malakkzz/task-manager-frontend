@@ -10,12 +10,12 @@ export default function Navbar() {
 
   // Check login state on mount & on location change
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     setIsLoggedIn(!!token);
   }, [location]);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     setIsLoggedIn(false);
     navigate("/");
   };

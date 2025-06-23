@@ -1,17 +1,20 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+
 
 export default function LandingPage() {
+  const location = useLocation(); // get location object here
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     setIsLoggedIn(!!token);
-  }, []);
+  }, [location]);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     setIsLoggedIn(false);
     alert("You've been logged out!");
     navigate("/");
