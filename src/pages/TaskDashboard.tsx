@@ -15,7 +15,7 @@ export default function TaskDashboard() {
   const [loading, setLoading] = useState(true); // true until tasks are loaded
   const [selectedTask, setSelectedTask] = useState<Task | null>(null); //selectedTask: the task to edit
   const [isModalOpen, setIsModalOpen] = useState(false); // controls whether the modal is shown.
-
+  const [searchTerm, setSearchTerm] = useState("");
 
   //Fetches task list from backend API (GET /tasks).
   const fetchTasks = async () => {
@@ -79,28 +79,46 @@ export default function TaskDashboard() {
     }
   };
 
+  // Filter tasks based on searchTerm (case-insensitive)
+  const filteredTasks = tasks.filter( //The original tasks array (fetched from the backend and stored in state)
+    (task) =>
+      //filtered to only keep tasks where either:
+      task.title.toLowerCase().includes(searchTerm.toLowerCase()) || //The task title includes the search term, case-insensitive.
+      task.description.toLowerCase().includes(searchTerm.toLowerCase()) //OR the task description includes the search term, case-insensitive.
+  );
+
   if (loading)
     return <p className="text-center mt-12 text-gray-600">Loading tasks...</p>;
 
   return (
     <div className="max-w-4xl mx-auto p-6 mt-12">
-      <h2 className="text-4xl font-bold mb-10 text-center text-gray-800">
-        📝 Your Tasks
-      </h2>
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-4xl font-bold text-gray-800">📝 Your Tasks</h2>
 
-      {loading ? (
-        <p className="text-center text-gray-500">Loading tasks...</p>
-      ) : tasks.length === 0 ? (
-        <p className="text-center text-gray-500">No tasks found. Add one!</p>
+        {/* Search input */}
+        {/* The <input> is a controlled input — its displayed value is always synced with the searchTerm state. */}
+        <input
+          type="text"
+          placeholder="Search tasks..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)} //e.target.value gets the current text inside the input.
+          className="w-64 px-4 py-3 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+        />
+      </div>
+
+      {/* Displaying filtered tasks */}
+      {filteredTasks.length === 0 ? ( //If no tasks match the search, it shows "No tasks found".
+        <p className="text-center text-gray-500">
+          No tasks found. Try another search or add a task!
+        </p>
       ) : (
         <ul className="space-y-6">
-          {tasks.map((task) => (
+          {filteredTasks.map((task) => ( //Otherwise, it renders only the tasks in filteredTasks.
             <li
               key={task.id}
               className="bg-white shadow-md rounded-lg p-6 flex justify-between items-start hover:shadow-lg transition"
             >
               <div className="flex-1">
-                {/* UI for the title to know if the task is completed or no */}
                 <h3
                   className={`text-xl font-semibold ${
                     task.isCompleted
@@ -117,8 +135,8 @@ export default function TaskDashboard() {
                 <label className="flex items-center text-sm">
                   <input
                     type="checkbox"
-                    checked={task.isCompleted} //shows the checkbox as checked or not depending on task status.
-                    onChange={() => toggleCompleted(task.id, !task.isCompleted)} // runs a function that flips the status (true ↔ false) when the checkbox is clicked.
+                    checked={task.isCompleted}
+                    onChange={() => toggleCompleted(task.id, !task.isCompleted)}
                     className="mr-2 h-4 w-4 accent-green-600"
                   />
                   Done
